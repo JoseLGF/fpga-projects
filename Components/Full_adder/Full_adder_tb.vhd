@@ -49,21 +49,20 @@ begin
     wait for 10 ns;
     end process;
 
-    --b_process: process
-    --begin
-    --b <= '0';
-    --wait for 20 ns;
-    --b <= '1';
-    --wait for 20 ns;
-    --end process;
+    b_process: process
+    begin
+    b <= '0';
+    wait for 20 ns;
+    b <= '1';
+    wait for 20 ns;
+    end process;
 
-    --cin_process: process
-    --begin
-    --cin <= '0';
-    --wait for 40 ns;
-    --cin <= '1';
-    --wait for 40 ns;
-    --end process;
-
-    --assert false report "Reached end of test.";
+    cin_process: process
+    begin
+    cin <= '0';
+    wait for 40 ns;
+    cin <= '1';
+    wait for 40 ns;
+    end process;
+	
 end test;
