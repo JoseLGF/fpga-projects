@@ -3,20 +3,21 @@
 rem ------------ Copy dependencies -------------------------------------------- 
 
 rem ------------ Check sources syntax -----------------------------------------
-echo Checking Components syntax...
-ghdl -s --ieee=synopsys Half_adder.vhd
-ghdl -s Half_adder_tb.vhd
+echo Checking Component files syntax...
+ghdl -s  mux_2in_1out.vhd
+ghdl -s  mux_2in_1out_tb.vhd
+rem ghdl -s --ieee=synopsys Half_adder_tb.vhd
 
 rem ------------ Analyze components -------------------------------------------
-echo Analyzing components...
-ghdl -a --ieee=synopsys Half_adder.vhd
-ghdl -a Half_adder_tb.vhd
+echo Analyzing component files...
+ghdl -a mux_2in_1out.vhd
+ghdl -a mux_2in_1out_tb.vhd
 
 rem ------------ Elaborate and run testbench ----------------------------------
-echo Elaborating testbench...
-ghdl -e --ieee=synopsys half_adder_tb
+echo Elaborating testbench files...
+ghdl -e mux_2in_1out_tb
 echo Running testbench and generate vcd file. Running for 100ns
-ghdl -r --ieee=synopsys half_adder_tb --vcd=half_adder_tb.vcd --stop-time=300ns
+ghdl -r --ieee=synopsys mux_2in_1out_tb --vcd=mux_2in_1out_tb.vcd --stop-time=100ns
 
 rem ------------ Cleanup ------------------------------------------------------
 
