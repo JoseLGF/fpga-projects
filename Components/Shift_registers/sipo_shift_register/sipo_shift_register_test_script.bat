@@ -2,7 +2,7 @@
 
 rem ------------ Copy dependencies --------------------------------------------
 echo Copying D Flip Flop component
-copy "..\D_Flipflop\D_FlipFlop.vhd" ".\D_FlipFlop.vhd"
+copy "..\..\D_Flipflop\D_FlipFlop.vhd" ".\D_FlipFlop.vhd"
 
 rem ------------ Check sources syntax -----------------------------------------
 echo Checking Components syntax...
@@ -28,3 +28,4 @@ del ".\D_FlipFlop.vhd"
 
 rem In order to open the generated waveform file type:
 rem gtkwave sipo_shift_register_tb.vcd
+pause
