@@ -14,7 +14,7 @@ entity mux_2in_1out is
 		d_in_0	: in  std_logic;
 		d_in_1	: in  std_logic;
 		d_out	: out std_logic;
-		sel		: in std_logic
+		sel		: in  std_logic
 	);
 end entity;
 

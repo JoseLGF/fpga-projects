@@ -17,14 +17,16 @@ architecture test of mux_2in_1out_tb is
     -- components
     component mux_2in_1out
         port(
-			d_in	: in  std_logic_vector(1 downto 0);
-			d_out	: out  std_logic;
+			d_in_0	: in  std_logic;
+			d_in_1	: in  std_logic;
+			d_out	: out std_logic;
 			sel		: in std_logic
 		);
     end component;
     
     -- input signals
-    signal d_in		: std_logic_vector(1 downto 0) := "00";
+    signal d_in_0	: std_logic := '0';
+	signal d_in_1	: std_logic := '0';
     signal sel		: std_logic := '0';
     -- output signals
     signal d_out	: std_logic := '0';
@@ -32,20 +34,25 @@ architecture test of mux_2in_1out_tb is
 begin
     mux_2in_1out_pm: mux_2in_1out 
 	port map(
-		d_in	=> d_in,
+		d_in_0	=> d_in_0,
+		d_in_1	=> d_in_1,
 		d_out	=> d_out,
 		sel		=> sel
 	);
 
 	-- Generate all possible combinations of inputs
-    process begin
-    d_in <= "00";
+    process	begin
+    d_in_0 <= '0';
+	d_in_1 <= '0';
     wait for 10 ns;
-    d_in <= "01";
+    d_in_0 <= '0';
+	d_in_1 <= '1';
     wait for 10 ns;
-	d_in <= "10";
+	d_in_0 <= '1';
+	d_in_1 <= '0';
     wait for 10 ns;
-    d_in <= "11";
+    d_in_0 <= '1';
+	d_in_1 <= '1';
     wait for 10 ns;
     end process;
 
