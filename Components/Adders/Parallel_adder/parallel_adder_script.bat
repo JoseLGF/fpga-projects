@@ -31,7 +31,7 @@ echo Elaborating testbench files...
 ghdl -e parallel_adder_tb
 
 echo Running testbench and generate vcd file. Running for 100ns
-ghdl -r --ieee=synopsys parallel_adder_tb --vcd=parallel_adder_tb.vcd --stop-time=3200ns
+ghdl -r --ieee=synopsys parallel_adder_tb --vcd=parallel_adder_tb.vcd --stop-time=5200ns
 
 rem ------------ Cleanup ------------------------------------------------------
 echo Removing dependencies

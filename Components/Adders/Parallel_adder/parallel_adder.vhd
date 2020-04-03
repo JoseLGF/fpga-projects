@@ -16,6 +16,7 @@ entity parallel_adder is
 	port (
 		A		: in  std_logic_vector(n-1 downto 0);
 		B		: in  std_logic_vector(n-1 downto 0);
+		C0		: in  std_logic;
 		Sum		: out std_logic_vector(n   downto 0)
 	);
 end entity;
@@ -51,5 +52,7 @@ begin
    
    -- Last carry is Sum's MSB
    Sum(n) <= carries(n);
+   -- first carry is C0
+   carries(0) <= C0;
    
 end gen;

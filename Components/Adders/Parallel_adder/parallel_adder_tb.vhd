@@ -28,6 +28,7 @@ architecture test of parallel_adder_tb is
 		port (
 			A		: in  std_logic_vector(n-1 downto 0);
 			B		: in  std_logic_vector(n-1 downto 0);
+			C0		: in  std_logic;
 			Sum		: out std_logic_vector(n   downto 0)
 		);
     end component;
@@ -36,7 +37,7 @@ architecture test of parallel_adder_tb is
 	signal A		: std_logic_vector	(N-1 downto 0) := "0000";
 	signal B		: std_logic_vector	(N-1 downto 0) := "0000";
 	signal Sum		: std_logic_vector	(N   downto 0) := "00000";
-	
+	signal C0		: std_logic := '0';
 
 begin
 
@@ -48,6 +49,7 @@ begin
 	port map(
 		A	=> A,
 		B	=> B,
+		C0	=> C0,
 		Sum	=> Sum
 	);
 	
@@ -60,6 +62,11 @@ begin
 	process begin
 		wait for 160 ns;
 		B <= STD_LOGIC_VECTOR ( unsigned(B) + 1);
+	end process;
+	
+	process begin
+		wait for 2560 ns;
+		C0 <= '1';
 	end process;
 	
 end test;
