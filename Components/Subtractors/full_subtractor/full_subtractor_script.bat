@@ -2,11 +2,18 @@
 
 rem ------------ Copy dependencies -------------------------------------------- 
 echo Retrieving dependencies
-if not exist ".\half_subtractor\half_subtractor.vhd" (
-	echo Copying half subtractor component...
-	copy "..\half_subtractor\half_subtractor.vhd" ".\half_subtractor.vhd"
+set name=half_subtractor
+set source="..\half_subtractor\half_subtractor.vhd"
+set target=".\half_subtractor.vhd"
+if not exist %target% (
+	echo Copying %name% component
+	if exist %source% (
+		copy %source% %target%
+	) else (
+		echo Error, file not found at %source%
+		exit /b 1
+	)
 )
-
 rem ------------ Check sources syntax -----------------------------------------
 echo Checking Components syntax...
 ghdl -s --ieee=synopsys half_subtractor.vhd
@@ -17,6 +24,7 @@ rem ------------ Analyze components -------------------------------------------
 echo Analyzing components...
 ghdl -a 				half_subtractor.vhd
 ghdl -a --ieee=synopsys full_subtractor.vhd
+ghdl -a --ieee=synopsys full_subtractor_tb.vhd
 
 
 rem ------------ Elaborate and run testbench ----------------------------------
