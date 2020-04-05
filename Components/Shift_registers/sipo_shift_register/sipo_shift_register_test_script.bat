@@ -25,7 +25,3 @@ ghdl -r sipo_shift_register_tb --vcd=sipo_shift_register_tb.vcd --stop-time=1000
 rem ------------ Cleanup ------------------------------------------------------
 echo Deleting local dependency files
 del ".\D_FlipFlop.vhd"
-
-rem In order to open the generated waveform file type:
-rem gtkwave sipo_shift_register_tb.vcd
-pause

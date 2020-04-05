@@ -43,7 +43,3 @@ ghdl -r --ieee=synopsys piso_shift_register_tb --vcd=piso_shift_register_tb.vcd 
 rem ------------ Cleanup ------------------------------------------------------
 echo Removing dependencies
 del  ".\D_FlipFlop.vhd"
-
-rem In order to open the generated waveform file type:
-rem gtkwave piso_shift_register_tb.vcd
-pause

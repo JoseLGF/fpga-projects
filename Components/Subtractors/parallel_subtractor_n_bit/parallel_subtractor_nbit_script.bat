@@ -33,10 +33,3 @@ ghdl -e --ieee=synopsys parallel_subtractor_tb
 echo Running testbench and generate vcd file. Running for 100ns
 ghdl -r --ieee=synopsys parallel_subtractor_tb --vcd=parallel_subtractor_tb.vcd ^
 		--stop-time=5200ns
-
-rem ------------ Cleanup ------------------------------------------------------
-
-
-pause
-rem In order to open the generated waveform file type:
-rem gtkwave full_subtractor_tb.vcd

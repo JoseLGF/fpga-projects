@@ -32,11 +32,3 @@ ghdl -e parallel_adder_tb
 
 echo Running testbench and generate vcd file. Running for 100ns
 ghdl -r --ieee=synopsys parallel_adder_tb --vcd=parallel_adder_tb.vcd --stop-time=5200ns
-
-rem ------------ Cleanup ------------------------------------------------------
-echo Removing dependencies
-del  ".\Full_adder.vhd"
-
-rem In order to open the generated waveform file type:
-rem gtkwave piso_shift_register_tb.vcd
-pause
