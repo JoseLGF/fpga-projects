@@ -14,7 +14,7 @@ cd "..\..\"
 
 echo ====Building component Parallel Adder
 cd ".\Adders\Parallel_adder"
-call parallel_adder_script.bat
+call parallel_adder_script.bat || exit /B 1
 echo Building component Finished
 cd "..\..\"
 

@@ -4,7 +4,12 @@ rem ------------ Copy dependencies --------------------------------------------
 echo Searching for dependencies
 if not exist ".\Full_adder.vhd" (
 	echo Copying Full adder component...
-	copy "..\Full_adder\Full_adder.vhd" ".\Full_adder.vhd"
+	if exist "..\Full_adder\Full_adder.vhd" (
+		copy "..\Full_adder\Full_adder.vhd" ".\Full_adder.vhd"
+	) else (
+		echo Error, file not found.
+		exit /b 1
+	)
 )
 
 rem ------------ Check sources syntax -----------------------------------------
