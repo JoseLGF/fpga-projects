@@ -71,3 +71,9 @@ cd ".\Subtractors\full_subtractor"
 call full_subtractor_script.bat || exit /B 1
 echo Building component Finished
 cd "..\..\"
+
+echo ====Building component 2 bit parallel multiplier
+cd ".\Multipliers\Partial_product\ppm_2bit"
+call partial_product_multiplier_script.bat || exit /B 1
+echo Building component Finished
+cd "..\..\..\"
