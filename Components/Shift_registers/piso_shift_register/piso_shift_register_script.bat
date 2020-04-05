@@ -2,9 +2,17 @@
 
 rem ------------ Copy dependencies --------------------------------------------
 echo Searching for dependencies
-if not exist ".\D_FlipFlop.vhd" (
-	echo Copying D Flip Flop component
-	copy "..\..\D_Flipflop\D_FlipFlop.vhd" ".\D_FlipFlop.vhd"
+set name=D Flip Flop
+set source="..\..\D_Flipflop\D_FlipFlop.vhd"
+set target=".\D_FlipFlop.vhd"
+if not exist %target% (
+	echo Copying %name% component
+	if exist %source% (
+		copy %source% %target%
+	) else (
+		echo Error, file not found at %source%
+		exit /b 1
+	)
 )
 
 rem ------------ Check sources syntax -----------------------------------------
@@ -39,7 +47,3 @@ ghdl -e piso_shift_register_tb
 echo Running testbench and generate vcd file. Running for 100ns
 ghdl -r --ieee=synopsys mux_2in_1out_tb --vcd=mux_2in_1out_tb.vcd --stop-time=100ns
 ghdl -r --ieee=synopsys piso_shift_register_tb --vcd=piso_shift_register_tb.vcd --stop-time=300ns
-
-rem ------------ Cleanup ------------------------------------------------------
-echo Removing dependencies
-del  ".\D_FlipFlop.vhd"

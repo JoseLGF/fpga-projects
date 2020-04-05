@@ -2,12 +2,15 @@
 
 rem ------------ Copy dependencies --------------------------------------------
 echo Searching for dependencies
-if not exist ".\Full_adder.vhd" (
-	echo Copying Full adder component...
-	if exist "..\Full_adder\Full_adder.vhd" (
-		copy "..\Full_adder\Full_adder.vhd" ".\Full_adder.vhd"
+set name=Full_adder
+set source="..\Full_adder\Full_adder.vhd"
+set target=".\Full_adder.vhd"
+if not exist %target% (
+	echo Copying %name% component
+	if exist %source% (
+		copy %source% %target%
 	) else (
-		echo Error, file not found.
+		echo Error, file not found at %source%
 		exit /b 1
 	)
 )

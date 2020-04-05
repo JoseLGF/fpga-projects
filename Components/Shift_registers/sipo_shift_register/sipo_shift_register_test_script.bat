@@ -2,7 +2,18 @@
 
 rem ------------ Copy dependencies --------------------------------------------
 echo Copying D Flip Flop component
-copy "..\..\D_Flipflop\D_FlipFlop.vhd" ".\D_FlipFlop.vhd"
+set name=D Flip Flop
+set source="..\..\D_Flipflop\D_FlipFlop.vhd"
+set target=".\D_FlipFlop.vhd"
+if not exist %target% (
+	echo Copying %name% component
+	if exist %source% (
+		copy %source% %target%
+	) else (
+		echo Error, file not found at %source%
+		exit /b 1
+	)
+)
 
 rem ------------ Check sources syntax -----------------------------------------
 echo Checking Components syntax...

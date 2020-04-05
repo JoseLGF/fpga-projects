@@ -2,14 +2,30 @@
 
 rem ------------ Copy dependencies -------------------------------------------- 
 echo Retrieving dependencies
-if not exist ".\parallel_adder.vhd" (
-	echo Copying parallel adder component...
-	copy "..\..\Adders\Parallel_adder\parallel_adder.vhd" ".\parallel_adder.vhd"
+set name=parallel_adder
+set source="..\..\Adders\Parallel_adder\parallel_adder.vhd"
+set target=".\parallel_adder.vhd"
+if not exist %target% (
+	echo Copying %name% component
+	if exist %source% (
+		copy %source% %target%
+	) else (
+		echo Error, file not found at %source%
+		exit /b 1
+	)
 )
 
-if not exist ".\Half_adder.vhd" (
-	echo Copying half adder component...
-	copy "..\..\Adders\Half_adder\Half_adder.vhd" ".\Half_adder.vhd"
+set name=Half_adder
+set source="..\..\Adders\Half_adder\Half_adder.vhd"
+set target=".\Half_adder.vhd"
+if not exist %target% (
+	echo Copying %name% component
+	if exist %source% (
+		copy %source% %target%
+	) else (
+		echo Error, file not found at %source%
+		exit /b 1
+	)
 )
 
 rem ------------ Check sources syntax -----------------------------------------
