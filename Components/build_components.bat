@@ -77,3 +77,9 @@ cd ".\Multipliers\Partial_product\ppm_2bit"
 call partial_product_multiplier_script.bat || exit /B 1
 echo Building component Finished
 cd "..\..\..\"
+
+echo ====Building component 4 bit parallel multiplier
+cd ".\Multipliers\Partial_product\ppm_nbit"
+call ppm_nbit_script.bat || exit /B 1
+echo Building component Finished
+cd "..\..\..\"
