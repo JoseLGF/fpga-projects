@@ -81,23 +81,6 @@ proc help {} {
   exit 0
 }
 
-if { $::argc > 0 } {
-  for {set i 0} {$i < $::argc} {incr i} {
-    set option [string trim [lindex $::argv $i]]
-    switch -regexp -- $option {
-      "--origin_dir"   { incr i; set origin_dir [lindex $::argv $i] }
-      "--project_name" { incr i; set _xil_proj_name_ [lindex $::argv $i] }
-      "--help"         { help }
-      default {
-        if { [regexp {^-} $option] } {
-          puts "ERROR: Unknown option '$option' specified, please type '$script_file -tclargs --help' for usage info.\n"
-          return 1
-        }
-      }
-    }
-  }
-}
-
 # Set the directory path for the original project from where this script was exported
 set orig_proj_dir "[file normalize "$origin_dir/../work/Raspberry_spi"]"
 
