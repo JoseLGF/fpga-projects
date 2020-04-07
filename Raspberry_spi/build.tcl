@@ -43,11 +43,8 @@ set _xil_proj_name_ "Raspberry_spi"
 variable script_file
 set script_file "build.tcl"
 
-# Set the directory path for the original project from where this script was exported
-set orig_proj_dir "[file normalize "$origin_dir/../work/Raspberry_spi"]"
-
 # Create project
-create_project Raspberry_spi ./work/Raspberry_spi -part xc7a35tcpg236-1
+create_project "Raspberry_spi" "./work/Raspberry_spi" -part xc7a35tcpg236-1
 
 # Set the directory path for the new project
 set proj_dir [get_property directory [current_project]]
@@ -385,4 +382,4 @@ set_property -name "steps.write_bitstream.args.verbose" -value "0" -objects $obj
 # set the current impl run
 current_run -implementation [get_runs impl_1]
 
-puts "INFO: Project created:${_xil_proj_name_}"
+puts "INFO: Project created:Raspberry_spi"
