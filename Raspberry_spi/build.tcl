@@ -47,7 +47,7 @@ set script_file "build.tcl"
 create_project "Raspberry_spi" "./work/Raspberry_spi" -part xc7a35tcpg236-1
 
 # Set the directory path for the new project
-set proj_dir [get_property directory [current_project]]
+set proj_dir "."
 
 # Reconstruct message rules
 # None
