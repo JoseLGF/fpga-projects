@@ -2,5 +2,7 @@
 
 call C:/Xilinx/Vivado/2018.2/settings64.bat
 
-echo compile, synthesize, implement, and generate bitstream
-call vivado -mode batch -source synth_imp_bitstr.tcl || exit /B 1
+echo Generating project
+call vivado -mode batch -source build.tcl || exit /B 1
+
+echo Project Generation completed
