@@ -83,3 +83,9 @@ cd ".\Multipliers\Partial_product\ppm_nbit"
 call ppm_nbit_script.bat || exit /B 1
 echo Building component Finished
 cd "..\..\..\"
+
+echo ====Building component FIR filter
+cd ".\Filters\fir"
+call fir_filter_script.bat || exit /B 1
+echo Building component Finished
+cd "..\..\"
