@@ -35,7 +35,7 @@
 #*****************************************************************************************
 
 # Set the reference directory for source file relative paths (by default the value is script directory path)
-set origin_dir "./src"
+set origin_dir "./"
 
 # Set the project name
 set _xil_proj_name_ "Mandelbrot_set"
