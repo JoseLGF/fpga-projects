@@ -24,7 +24,7 @@ def main():
 	center_x	= float(sys.argv[1])
 	center_y	= float(sys.argv[2])
 	zoom_lvl	= float(sys.argv[3])
-	max_iter	= 100
+	max_iter	= 8
 	
 	coords = scale_view(center_x, center_y, zoom_lvl)
 	iterations = []
@@ -98,11 +98,29 @@ def generate_image(iterations):
 	
 	print("iterations vector: " + str(len(iterations)))
 	print("Writing values to image")
+	iterationsCount = []
+	for i in range(16):
+		iterationsCount.append(0)
+		
+		
 	for x in range(640):
 		for y in range(480):
-			val = 2 * iterations[x*480 + y]
+			
+			# Iterations less than 7, treat them as 0
+			
+			thisIter = iterations[x*480 + y]
+			
+			# if (thisIter < 7):
+				# thisIter = 1
+			
+			val = 35 * thisIter
+			iterationsCount[thisIter] = iterationsCount[thisIter] + 1
+			
 			#print("x: " + str(x) + ", y: " + str(y) + " -> " + str(val))
-			data[y, x] = [val, 0, 0] 
+			data[y, x] = [val, val, val]
+	
+	for i in range(16):
+		print(str(i) + "s: " + str(iterationsCount[i]) )
 	
 	img = Image.fromarray(data, 'RGB')
 	img.save('my.png')

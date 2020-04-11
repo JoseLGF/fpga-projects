@@ -27,7 +27,10 @@
 #
 # 3. The following remote source files that were added to the original project:-
 #
-#    <none>
+#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/Mandelbrot_set/src/hdl/vga640x480_core.v"
+#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/Mandelbrot_set/src/hdl/vga_unit.v"
+#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/Mandelbrot_set/src/hdl/Top.vhd"
+#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/Mandelbrot_set/src/Basys3_Master.xdc"
 #
 #*****************************************************************************************
 
@@ -84,10 +87,26 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
-# Empty (no sources present)
+set files [list \
+ [file normalize "${origin_dir}/src/hdl/vga640x480_core.v"] \
+ [file normalize "${origin_dir}/src/hdl/vga_unit.v"] \
+ [file normalize "${origin_dir}/src/hdl/Top.vhd"] \
+]
+add_files -norecurse -fileset $obj $files
+
+# Set 'sources_1' fileset file properties for remote files
+set file "$origin_dir/src/hdl/Top.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+
+# Set 'sources_1' fileset file properties for local files
+# None
 
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]
+set_property -name "top" -value "Mandelbrot_top" -objects $obj
 
 # Create 'constrs_1' fileset (if not found)
 if {[string equal [get_filesets -quiet constrs_1] ""]} {
@@ -97,7 +116,13 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 # Set 'constrs_1' fileset object
 set obj [get_filesets constrs_1]
 
-# Empty (no sources present)
+# Add/Import constrs file and set constrs file properties
+set file "[file normalize "$origin_dir/src/Basys3_Master.xdc"]"
+set file_added [add_files -norecurse -fileset $obj [list $file]]
+set file "$origin_dir/src/Basys3_Master.xdc"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
+set_property -name "file_type" -value "XDC" -objects $file_obj
 
 # Set 'constrs_1' fileset properties
 set obj [get_filesets constrs_1]
@@ -114,6 +139,8 @@ set obj [get_filesets sim_1]
 
 # Set 'sim_1' fileset properties
 set obj [get_filesets sim_1]
+set_property -name "top" -value "Mandelbrot_top" -objects $obj
+set_property -name "top_lib" -value "xil_defaultlib" -objects $obj
 
 # Create 'synth_1' run (if not found)
 if {[string equal [get_runs -quiet synth_1] ""]} {
