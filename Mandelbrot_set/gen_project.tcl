@@ -44,7 +44,7 @@ variable script_file
 set script_file "gen_project.tcl"
 
 # Create project
-create_project ${_xil_proj_name_} ./${_xil_proj_name_} -part xc7a35tcpg236-1
+create_project "Mandelbrot_set" "./work/Mandelbrot_set" -part xc7a35tcpg236-1
 
 # Set the directory path for the new project
 set proj_dir "."
