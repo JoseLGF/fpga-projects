@@ -292,3 +292,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports Vsync]
 #set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[3]}]
 #set_property PACKAGE_PIN K19 [get_ports QspiCSn]
 #set_property IOSTANDARD LVCMOS33 [get_ports QspiCSn]
+
+## Use the center button as reset
+ set_property PACKAGE_PIN U18 [get_ports rst]
+ set_property IOSTANDARD LVCMOS33 [get_ports rst]
