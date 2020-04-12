@@ -1,0 +1,54 @@
+$ version 1.1
+
+# Signals in packages :
+
+# Signals in entities :
+#/top_tb/clk
+/top_tb/rst
+/top_tb/sw
+/top_tb/hsync
+/top_tb/vsync
+/top_tb/vgared
+/top_tb/vgagreen
+/top_tb/vgablue
+# /top_tb/uut/clk
+# /top_tb/uut/rst
+# /top_tb/uut/sw
+# /top_tb/uut/hsync
+# /top_tb/uut/vsync
+# /top_tb/uut/vgared
+# /top_tb/uut/vgagreen
+# /top_tb/uut/vgablue
+# /top_tb/uut/led
+# /top_tb/uut/pixel_x
+# /top_tb/uut/pixel_y
+ /top_tb/uut/pixel_mngr/p_x
+ /top_tb/uut/pixel_mngr/p_y
+# /top_tb/uut/pixel_mngr/vgared
+# /top_tb/uut/pixel_mngr/vgagreen
+# /top_tb/uut/pixel_mngr/vgablue
+# /top_tb/uut/pixel_mngr/sq_a
+# /top_tb/uut/pixel_mngr/sq_b
+# /top_tb/uut/pixel_mngr/sq_c
+# /top_tb/uut/pixel_mngr/sq_d
+# /top_tb/uut/vga/clk
+# /top_tb/uut/vga/reset
+# /top_tb/uut/vga/hsync
+# /top_tb/uut/vga/vsync
+# /top_tb/uut/vga/video_on
+# /top_tb/uut/vga/p_tick
+# /top_tb/uut/vga/pixel_x
+# /top_tb/uut/vga/pixel_y
+# /top_tb/uut/vga/mod4_reg
+# /top_tb/uut/vga/mod4_next
+# /top_tb/uut/vga/v_count_reg
+# /top_tb/uut/vga/v_count_next
+# /top_tb/uut/vga/h_count_reg
+# /top_tb/uut/vga/h_count_next
+# /top_tb/uut/vga/v_sync_reg
+# /top_tb/uut/vga/h_sync_reg
+# /top_tb/uut/vga/v_sync_next
+# /top_tb/uut/vga/h_sync_next
+# /top_tb/uut/vga/h_end
+# /top_tb/uut/vga/v_end
+# /top_tb/uut/vga/pixel_tick
