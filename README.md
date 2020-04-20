@@ -23,8 +23,11 @@ by ghdl.
 - Vivado 2018: Used for creating FPGA projects with Xilinx boards.
 - KCPSM6: This is not used to build the project, but is used to convert assembly
 files into ROM/RAM components for picoblaze projects.
+- ISE 14.7 Needed in order to reprogram a picoblaze controller running on an
+active design.
 
 ## Setup
 1. Install GHDL and add it to path
 2. Install GtkWave and add it to path.
 3. Install Vivado 2018 and ensure it is added to path.
+4. In order to reprogram the picoblaze via USB-jtag, install Xilinx ISE 14.7.
