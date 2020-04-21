@@ -28,6 +28,7 @@
 # 3. The following remote source files that were added to the original project:-
 #
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/hdl/kcpsm6.vhd"
+#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/hdl/sseg_dec.vhd"																						   
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/psm/unsigned_multiplier.vhd"
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/hdl/top.vhd"
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/Basys3_Master.xdc"
@@ -89,6 +90,7 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 set obj [get_filesets sources_1]
 set files [list \
  [file normalize "${origin_dir}/src/hdl/kcpsm6.vhd"] \
+ [file normalize "${origin_dir}/src/hdl/sseg_dec.vhd"] \
  [file normalize "${origin_dir}/src/psm/unsigned_multiplier.vhd"] \
  [file normalize "${origin_dir}/src/hdl/top.vhd"] \
 ]
@@ -100,6 +102,10 @@ set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
+set file "$origin_dir/src/hdl/sseg_dec.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
 set file "$origin_dir/src/psm/unsigned_multiplier.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]

@@ -1,28 +1,36 @@
-; OUTPUTS  ------------------------------------------------
-; 8 General Purpose LEDs
-CONSTANT LED_port, 01
-; 5 Direction LEDs
-CONSTANT Direction_LED_port, 02
-; Bit assignements for each LED/button
-CONSTANT North, 00000001'b	; North - bit0
-CONSTANT East, 00000010'b	; East - bit1
-CONSTANT South, 00000100'b	; South - bit2
-CONSTANT West, 00001000'b	; West - bit3
-CONSTANT Centre, 00010000'b	; Centre – bit4
-
 ; INPUTS  -------------------------------------------------
 ; 8 DIP Switches
 CONSTANT Switch_port, 00
 ; 5 Direction Push Buttons
 CONSTANT Direction_Button_port, 01
 
+; OUTPUTS  ------------------------------------------------
+; 8 General Purpose LEDs
+CONSTANT LED_port, 01
+; 5 Direction LEDs
+CONSTANT Direction_LED_port, 02
+; Seven segment display
+CONSTANT Seven_segment, 04
+
+
+; Bit assignements for each LED/button
+CONSTANT North, 00000001'b	; North  - bit0
+CONSTANT East, 00000010'b		; East   - bit1
+CONSTANT South, 00000100'b	; South  - bit2
+CONSTANT West, 00001000'b		; West   - bit3
+CONSTANT Centre, 00010000'b	; Center – bit4
+
 ; PROGRAM START HERE --------------------------------------
 ; unsigned_multiplier.psm
 ; This is the start of 'unsigned_multiplier' for KCPSM6
 ;
 start:
-	input  s0, Switch_port				; read switches and store in register s0
-	output s0, LED_port					; write the value of s0 into the Leds
-	input  s1, Direction_Button_port
-	output s1, Direction_LED_port
-	jump start
+	input	s0, Switch_port				; read switches and store in register s0
+	output	s0, LED_port					; write the value of s0 into the Leds
+	input	s1, Direction_Button_port
+	output	s1, Direction_LED_port
+	load	s2, FF
+	output	s2, Seven_segment
+	jump	start
+	
+; End of program unsigned_multiplier ----------------------

@@ -17,7 +17,10 @@ entity pico_top is
 		led_e	: out std_logic;
 		led_s	: out std_logic;
 		led_w	: out std_logic;
-		led_c	: out std_logic
+		led_c	: out std_logic;
+		-- Seven segment display interface
+		an		: out std_logic_vector(3 downto 0);
+		seg		: out std_logic_vector(7 downto 0)
 	);
 end pico_top;
 
@@ -54,7 +57,19 @@ component unsigned_multiplier
                     rdl : out std_logic;                    
                     clk : in std_logic);
 end component;
-	
+
+component sseg_dec is
+    Port (
+		ALU_VAL		: in std_logic_vector(7 downto 0); 
+		SIGN		: in std_logic;
+		VALID		: in std_logic;
+		CLK			: in std_logic;
+		DISP_EN		: out std_logic_vector(3 downto 0);
+		SEGMENTS	: out std_logic_vector(7 downto 0)
+	);
+end component;
+
+
 --
 -- Signals for connection of KCPSM6 and Program Memory.
 --
@@ -71,6 +86,11 @@ signal       interrupt : std_logic;
 signal   interrupt_ack : std_logic;
 signal    kcpsm6_sleep : std_logic;
 signal    kcpsm6_reset : std_logic;
+
+--
+-- Signals for connection of Seven segment decoder
+--
+signal sseg_val : std_logic_vector(7 downto 0);
 
 
 begin
@@ -126,6 +146,10 @@ interrupt    <= interrupt_ack;
 					led_w <= out_port(3);
 					led_c <= out_port(4);
 				end if;
+				-- Seven segment display at port address 04 hex
+				if port_id(2) = '1' then
+					sseg_val <= out_port;
+				end if;
 			end if;
 		end if;
 	end process output_ports;
@@ -147,5 +171,15 @@ interrupt    <= interrupt_ack;
 			end case;
 		end if;
 	end process input_ports;
+	
+	digit_disp : sseg_dec
+    Port map(
+		ALU_VAL		=> sseg_val,
+		SIGN		=> '0',
+		VALID		=> '1',
+		CLK			=> clk,
+		DISP_EN		=> an,
+		SEGMENTS	=> seg
+	);
 
 end arch;
