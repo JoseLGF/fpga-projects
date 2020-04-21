@@ -1,0 +1,16 @@
+$ version 1.1
+
+# Signals in packages :
+
+# Signals in entities :
+#/vga_test/clk
+/vga_test/reset
+/vga_test/sw
+/vga_test/hsync
+/vga_test/vsync
+/vga_test/rgb
+/vga_test/rgb_reg
+/vga_test/video_on
+/vga_test/s_clk
+/vga_test/s_reset
+
