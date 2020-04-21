@@ -89,3 +89,9 @@ cd ".\Filters\fir"
 call fir_filter_script.bat || exit /B 1
 echo Building component Finished
 cd "..\..\"
+
+echo ====Building component VGA Sync
+cd ".\Vga_sync"
+call vga_test.bat || exit /B 1
+echo Building component Finished
+cd "..\"
