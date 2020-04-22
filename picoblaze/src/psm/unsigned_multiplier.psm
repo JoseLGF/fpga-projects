@@ -1,23 +1,31 @@
 ; INPUTS  -------------------------------------------------
-; 8 DIP Switches
-CONSTANT Switch_port, 00
+; 8 Ram address switches
+CONSTANT Switch_addr, 00
 ; 5 Direction Push Buttons
 CONSTANT Direction_Button_port, 01
+; 8 Ram data switches
+CONSTANT Switch_data, 02
+
 
 ; OUTPUTS  ------------------------------------------------
-; 8 General Purpose LEDs
-CONSTANT LED_port, 01
-; 5 Direction LEDs
-CONSTANT Direction_LED_port, 02
-; Seven segment display
-CONSTANT Seven_segment, 04
+; Ram Address register for the block ram.
+CONSTANT Ram_addr, 01
+; Ram Data Input register
+CONSTANT Ram_dina_reg, 02
+; Ram write enable for port A
+CONSTANT Ram_wea, 04
 
+; Ram memory map
+; s0 : Ram address
+; s1 : Direction buttons port
+; s2 : Ram data
+; s3 : Ram write enable
 
 ; Bit assignements for each LED/button
-CONSTANT North, 00000001'b	; North  - bit0
-CONSTANT East, 00000010'b		; East   - bit1
-CONSTANT South, 00000100'b	; South  - bit2
-CONSTANT West, 00001000'b		; West   - bit3
+CONSTANT North,  00000001'b	; North  - bit0
+CONSTANT East,   00000010'b	; East   - bit1
+CONSTANT South,  00000100'b	; South  - bit2
+CONSTANT West,   00001000'b	; West   - bit3
 CONSTANT Centre, 00010000'b	; Center – bit4
 
 ; PROGRAM START HERE --------------------------------------
@@ -25,12 +33,32 @@ CONSTANT Centre, 00010000'b	; Center – bit4
 ; This is the start of 'unsigned_multiplier' for KCPSM6
 ;
 start:
-	input	s0, Switch_port				; read switches and store in register s0
-	output	s0, LED_port					; write the value of s0 into the Leds
-	input	s1, Direction_Button_port
-	output	s1, Direction_LED_port
-	load	s2, FF
-	output	s2, Seven_segment
-	jump	start
+	input	s0, Switch_addr				; Read address from switches
+	output	s0, Ram_addr					; Output to leds
 	
+	jump	Ram_write	
+	input	s2, Switch_data
+	output	s2, Ram_dina_reg
+	load	s3, 00
+	output	s3, Ram_wea
+	jump	start
+
+
+
+; Ram_write routine
+; Description: Read the buttons. If the north button is pressed,
+; set the write enable output high.
+Ram_write:
+	input	s1, Direction_Button_port
+	compare	s1, 01
+	jump	z,	write_enable
+	load	s1, 00			; always set enable back to 0
+	output	s1, Ram_wea	; if previously enabled.
+	return
+
+write_enable:
+	load	s1, 01
+	output	s1, Ram_wea
+	return
+
 ; End of program unsigned_multiplier ----------------------

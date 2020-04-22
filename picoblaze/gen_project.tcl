@@ -27,8 +27,9 @@
 #
 # 3. The following remote source files that were added to the original project:-
 #
+#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/ip/blk_ram_gen_0.xci"
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/hdl/kcpsm6.vhd"
-#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/hdl/sseg_dec.vhd"																						   
+#    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/hdl/sseg_dec.vhd"
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/psm/unsigned_multiplier.vhd"
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/hdl/top.vhd"
 #    "C:/Users/Diana German/Desktop/repolocal/fpga-projects/picoblaze/src/Basys3_Master.xdc"
@@ -72,14 +73,16 @@ set_property -name "dsa.uses_pr" -value "1" -objects $obj
 set_property -name "dsa.vendor" -value "xilinx" -objects $obj
 set_property -name "dsa.version" -value "0.0" -objects $obj
 set_property -name "enable_vhdl_2008" -value "1" -objects $obj
+set_property -name "ip.user_files_dir" -value "$proj_dir/work/picoblaze/${_xil_proj_name_}.ip_user_files" -objects $obj
 set_property -name "ip_cache_permissions" -value "read write" -objects $obj
-set_property -name "ip_output_repo" -value "$proj_dir/${_xil_proj_name_}.cache/ip" -objects $obj
+set_property -name "ip_output_repo" -value "$proj_dir/work/picoblaze/${_xil_proj_name_}.cache/ip" -objects $obj
 set_property -name "mem.enable_memory_map_generation" -value "1" -objects $obj
 set_property -name "part" -value "xc7a35tcpg236-1" -objects $obj
-set_property -name "sim.central_dir" -value "$proj_dir/${_xil_proj_name_}.ip_user_files" -objects $obj
+set_property -name "sim.central_dir" -value "$proj_dir/work/picoblaze/${_xil_proj_name_}.ip_user_files" -objects $obj
 set_property -name "sim.ip.auto_export_scripts" -value "1" -objects $obj
 set_property -name "simulator_language" -value "Mixed" -objects $obj
 set_property -name "target_language" -value "VHDL" -objects $obj
+set_property -name "xpm_libraries" -value "XPM_MEMORY" -objects $obj
 
 # Create 'sources_1' fileset (if not found)
 if {[string equal [get_filesets -quiet sources_1] ""]} {
@@ -89,6 +92,7 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
 set files [list \
+ [file normalize "${origin_dir}/src/ip/blk_ram_gen_0.xci"] \
  [file normalize "${origin_dir}/src/hdl/kcpsm6.vhd"] \
  [file normalize "${origin_dir}/src/hdl/sseg_dec.vhd"] \
  [file normalize "${origin_dir}/src/psm/unsigned_multiplier.vhd"] \
@@ -97,6 +101,14 @@ set files [list \
 add_files -norecurse -fileset $obj $files
 
 # Set 'sources_1' fileset file properties for remote files
+set file "$origin_dir/src/ip/blk_ram_gen_0.xci"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "generate_files_for_reference" -value "0" -objects $file_obj
+set_property -name "registered_with_manager" -value "1" -objects $file_obj
+if { ![get_property "is_locked" $file_obj] } {
+  set_property -name "synth_checkpoint_mode" -value "Singular" -objects $file_obj
+}
 set file "$origin_dir/src/hdl/kcpsm6.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]

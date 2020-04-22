@@ -6,18 +6,13 @@ entity pico_top is
 	port(
 		clk		: in  std_logic;
 		--reset	: in  std_logic;
-		sw		: in  std_logic_vector(7 downto 0);
+		sw		: in  std_logic_vector(15 downto 0);
 		push_n	: in  std_logic;
 		push_e	: in  std_logic;
 		push_s	: in  std_logic;
 		push_w	: in  std_logic;
 		push_c	: in  std_logic;
-		led		: out std_logic_vector(7 downto 0);
-		led_n	: out std_logic;
-		led_e	: out std_logic;
-		led_s	: out std_logic;
-		led_w	: out std_logic;
-		led_c	: out std_logic;
+		led		: out std_logic_vector(15 downto 0);
 		-- Seven segment display interface
 		an		: out std_logic_vector(3 downto 0);
 		seg		: out std_logic_vector(7 downto 0)
@@ -47,6 +42,7 @@ component kcpsm6
                                  clk : in std_logic);
 	end component;
 	
+	
 component unsigned_multiplier                             
     generic(             C_FAMILY : string := "7S"; 
                 C_RAM_SIZE_KWORDS : integer := 1;
@@ -58,6 +54,7 @@ component unsigned_multiplier
                     clk : in std_logic);
 end component;
 
+
 component sseg_dec is
     Port (
 		ALU_VAL		: in std_logic_vector(7 downto 0); 
@@ -66,6 +63,20 @@ component sseg_dec is
 		CLK			: in std_logic;
 		DISP_EN		: out std_logic_vector(3 downto 0);
 		SEGMENTS	: out std_logic_vector(7 downto 0)
+	);
+end component;
+
+
+component blk_ram_gen_0 is
+	port (
+		clka	: in  std_logic;
+		ena		: in  std_logic;
+		wea		: in  std_logic_vector(0 downto 0);
+		addra	: in  std_logic_vector(7 downto 0);
+		dina	: in  std_logic_vector(7 downto 0);
+		clkb	: in  std_logic;
+		addrb	: in  std_logic_vector(7 downto 0);
+		doutb	: out std_logic_vector(7 downto 0)
 	);
 end component;
 
@@ -87,10 +98,12 @@ signal   interrupt_ack : std_logic;
 signal    kcpsm6_sleep : std_logic;
 signal    kcpsm6_reset : std_logic;
 
---
--- Signals for connection of Seven segment decoder
---
-signal sseg_val : std_logic_vector(7 downto 0);
+
+-- Block ram interface
+signal s_wea	: std_logic_vector(0 downto 0);
+signal s_addr	: std_logic_vector(7 downto 0);
+signal s_dina	: std_logic_vector(7 downto 0);
+signal s_doutb	: std_logic_vector(7 downto 0);
 
 
 begin
@@ -134,39 +147,40 @@ interrupt    <= interrupt_ack;
 	begin
 		if clk'event and clk = '1' then
 			if write_strobe = '1' then
-				-- 8 General purpose LEDs at port address 01 hex
+				-- Ram address register for the block ram at address 01 hex
 				if port_id(0) = '1' then
-					led <= out_port;
+					s_addr <= out_port;
 				end if;
-				-- Direction LEDs at port address 02 hex
+				-- Ram Data input a register at port address 02 hex
 				if port_id(1) = '1' then
-					led_n <= out_port(0);
-					led_e <= out_port(1);
-					led_s <= out_port(2);
-					led_w <= out_port(3);
-					led_c <= out_port(4);
+					s_dina(7 downto 0) <= out_port;
 				end if;
-				-- Seven segment display at port address 04 hex
+				-- Ram write enable register at port address 04 hex
 				if port_id(2) = '1' then
-					sseg_val <= out_port;
+					s_wea(0) <= out_port(0);
 				end if;
 			end if;
 		end if;
 	end process output_ports;
 
+	-- Map the LEDs to the address Register output to see its contents
+	led(7  downto 0) <= s_addr;
+	led(15 downto 8) <= s_dina;
 
 	input_ports: process(clk)
 	begin
 		if clk'event and clk = '1' then
-			case port_id(0) is
-				-- Read 8 DIP switches at port address 00 hex
-				when '0' => in_port <= sw;
+			case port_id(1 downto 0) is
+				-- Ram Address: First 8 DIP switches at port address 00 hex
+				when "00" => in_port <= sw(7 downto 0);
 				-- Read 5 Push Buttons at port address 01 hex
-				when '1' => in_port(0) <= push_n;
+				when "01" => in_port(0) <= push_n;
 							in_port(1) <= push_e;
 							in_port(2) <= push_s;
 							in_port(3) <= push_w;
 							in_port(4) <= push_c;
+				-- Ram Data: Last 8 DIP switches at port address 00 hex
+				when "10" => in_port <= sw(15 downto 8);
 				when others => in_port <= "XXXXXXXX";
 			end case;
 		end if;
@@ -174,12 +188,25 @@ interrupt    <= interrupt_ack;
 	
 	digit_disp : sseg_dec
     Port map(
-		ALU_VAL		=> sseg_val,
+		ALU_VAL		=> s_doutb,
 		SIGN		=> '0',
 		VALID		=> '1',
 		CLK			=> clk,
 		DISP_EN		=> an,
 		SEGMENTS	=> seg
+	);
+	
+	
+	ram_mem : blk_ram_gen_0
+	port map(
+		clka	=> clk,
+		ena		=> '1',
+		wea		=> s_wea,
+		addra	=> s_addr,
+		dina	=> s_dina,
+		clkb	=> clk,
+		addrb	=> s_addr,
+		doutb	=> s_doutb
 	);
 
 end arch;
