@@ -1,64 +1,96 @@
-; INPUTS  -------------------------------------------------
+; < inputs  -----------------------------------------------
 ; 8 Ram address switches
 CONSTANT Switch_addr, 00
 ; 5 Direction Push Buttons
 CONSTANT Direction_Button_port, 01
 ; 8 Ram data switches
 CONSTANT Switch_data, 02
+; >
 
+; < outputs  ----------------------------------------------
+; Ram write address (x) for the block ram at address 01 hex
+constant Ram_addr_x, 01
+; Ram write address (y) for the block ram at address 02 hex
+constant Ram_addr_y, 02
+; Ram Data input a register at port address 04 hex
+constant Ram_dina_reg, 04
+; Ram write enable register at port address 08 hex
+constant Ram_wea, 08
+; >
 
-; OUTPUTS  ------------------------------------------------
-; Ram Address register for the block ram.
-CONSTANT Ram_addr, 01
-; Ram Data Input register
-CONSTANT Ram_dina_reg, 02
-; Ram write enable for port A
-CONSTANT Ram_wea, 04
+; < Ram memory map
+; s0 : temp
+; s1 : calculated color for current pixel
+; s2 : Ram address x
+; s3 : Ram address y
+; s4 : Ram write enable
+; s5 : temp 2
+; >
 
-; Ram memory map
-; s0 : Ram address
-; s1 : Direction buttons port
-; s2 : Ram data
-; s3 : Ram write enable
+; < Bit assignements for each LED/button
+constant North , 00000001'b		; North  - bit0
+constant East  , 00000010'b		; East   - bit1
+constant South , 00000100'b		; South  - bit2
+constant West  , 00001000'b		; West   - bit3
+constant Centre, 00010000'b		; Center – bit4
+; >
 
-; Bit assignements for each LED/button
-CONSTANT North,  00000001'b	; North  - bit0
-CONSTANT East,   00000010'b	; East   - bit1
-CONSTANT South,  00000100'b	; South  - bit2
-CONSTANT West,   00001000'b	; West   - bit3
-CONSTANT Centre, 00010000'b	; Center – bit4
+; < other constants
+; >
 
-; PROGRAM START HERE --------------------------------------
+; < MAIN PROGRAM START ------------------------------------
 ; unsigned_multiplier.psm
 ; This is the start of 'unsigned_multiplier' for KCPSM6
 ;
 start:
-	input	s0, Switch_addr				; Read address from switches
-	output	s0, Ram_addr					; Output to leds
-	
-	jump	Ram_write	
-	input	s2, Switch_data
-	output	s2, Ram_dina_reg
-	load	s3, 00
-	output	s3, Ram_wea
+	call	increment_address
+	call	calc_color
+	call	Ram_write
 	jump	start
 
+; > MAIN PROGRAM
 
+; < increment address routine
+; point to the next RAM address for writing.
+increment_address:
+	add		s2, 01		; increment x address
+	addcy	s3, 00		; add carry from previous addition
+	return
+; >
 
-; Ram_write routine
-; Description: Read the buttons. If the north button is pressed,
-; set the write enable output high.
-Ram_write:
-	input	s1, Direction_Button_port
-	compare	s1, 01
-	jump	z,	write_enable
-	load	s1, 00			; always set enable back to 0
-	output	s1, Ram_wea	; if previously enabled.
+; < calc_color routine
+; Description: read buttons to determine output color
+; Since color is 1 bit, the LSB of switch input (north) is used as color.
+; if button north is pressed, the screen is drawn white
+calc_color:
+	load	s1, 00
+	; X comparison
+	load	s0, s2
+	and		s0, 80								; extract MSB
+	; Y comparison
+	load	s5, s3
+	and		s5, 80
+	; if X and Y are both MSB set
+	compare s5, s0
+	jump	z , paint_white
 	return
 
-write_enable:
+paint_white:
 	load	s1, 01
-	output	s1, Ram_wea
 	return
+; >
+
+; < Ram_write routine
+; Description: save address and data into registers and write to ram.
+Ram_write:
+	output	s2, Ram_addr_x
+	output	s3, Ram_addr_y
+	output	s1, Ram_dina_reg
+	load	s0, 01				; load 01 into temp register for writing
+	output	s0, Ram_wea
+	load	s0, 00
+	output	s0, Ram_wea
+	return
+; >
 
 ; End of program unsigned_multiplier ----------------------

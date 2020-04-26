@@ -48,7 +48,7 @@ begin
 			h_count_reg	<= (others => '0');
 			v_sync_reg	<= '0';
 			h_sync_reg	<= '0';
-		elsif (clk'event and clk='1') then
+		elsif (rising_edge(clk)) then
 			mod4_reg 	<= mod4_next;
 			v_count_reg	<= v_count_next;
 			h_count_reg	<= h_count_next;
