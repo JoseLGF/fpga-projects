@@ -95,3 +95,9 @@ cd ".\Vga_sync"
 call vga_test.bat || exit /B 1
 echo Building component Finished
 cd "..\"
+
+echo ====Building component Edge detector
+cd ".\Edge_detector"
+call edge_deb_test.bat || exit /B 1
+echo Building component Finished
+cd "..\"
