@@ -3,7 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity Top is
     Port (
-               CLK            : in  std_logic;
+               clk            : in  std_logic;
                --RST          : in  std_logic;
                --sw             : in  std_logic_vector(8 downto 0);
                btnU           : in  std_logic;
@@ -26,7 +26,7 @@ architecture Structural of Top is
     -- components
     component Tic_Tac_Renderer 
              Port(
-               CLK            : in  std_logic;
+               clk            : in  std_logic;
                RST_BTN        : in  std_logic;
                BLUE           : in  std_logic_vector(8 downto 0);
                RED            : in  std_logic_vector(8 downto 0);
@@ -41,7 +41,7 @@ architecture Structural of Top is
 
      component Core 
         Port (
-               CLK            : in  std_logic;
+               clk            : in  std_logic;
                btnU           : in  std_logic;
                btnD           : in  std_logic;
                btnL           : in  std_logic;
@@ -58,7 +58,7 @@ architecture Structural of Top is
 
       component deb_edge 
             Port (
-               CLK            : in  std_logic;
+               clk            : in  std_logic;
                in_btn         : in  std_logic; -- button signal
                out_edge       : out std_logic  -- debounce and edge
                    );
@@ -82,7 +82,7 @@ architecture Structural of Top is
 
         component four_single_sseg 
              Port(
-               CLK            : in  std_logic;
+               clk            : in  std_logic;
                D0             : in  std_logic_vector(3 downto 0); 
                D1             : in  std_logic_vector(3 downto 0); 
                D2             : in  std_logic_vector(3 downto 0); 
@@ -116,7 +116,7 @@ architecture Structural of Top is
 begin
     -- port maps
     TTR: Tic_Tac_Renderer port map( 
-               CLK           => CLK,
+               clk           => clk,
                RST_BTN       => '1', 
                BLUE          => s_b (8 downto 0),
                RED           => s_r (8 downto 0),
@@ -129,7 +129,7 @@ begin
      );
 
     CR: Core port map( 
-               CLK           => CLK,
+               clk           => clk,
                btnU          => s_db_btU,
                btnD          => s_db_btD,
                btnL          => s_db_btL,
@@ -144,40 +144,40 @@ begin
      );
 
     dbU: deb_edge port map( 
-               CLK           => CLK,
+               clk           => clk,
                in_btn        => btnU,
                out_edge      => s_db_btU
      );
     dbD: deb_edge port map( 
-               CLK           => CLK,
+               clk           => clk,
                in_btn        => btnD,
                out_edge      => s_db_btD
      );
     dbL: deb_edge port map( 
-               CLK           => CLK,
+               clk           => clk,
                in_btn        => btnL,
                out_edge      => s_db_btL
      );
     dbR: deb_edge port map( 
-               CLK           => CLK,
+               clk           => clk,
                in_btn        => btnR,
                out_edge      => s_db_btR
      );
     dbC: deb_edge port map( 
-               CLK           => CLK,
+               clk           => clk,
                in_btn        => btnC,
                out_edge      => s_db_btC
      );
 
     r_ed: edge_detector port map( 
-               i_clk        => CLK,
+               i_clk        => clk,
                i_rstb       => '1',
                i_input      => s_red_win,
                o_pulse      => s_ed_red_win
      );
 
     b_ed: edge_detector port map( 
-               i_clk        => CLK,
+               i_clk        => clk,
                i_rstb       => '1',
                i_input      => s_blue_win,
                o_pulse      => s_ed_blue_win
@@ -194,7 +194,7 @@ begin
      );
 
     sseg: four_single_sseg port map( 
-               CLK           => CLK,
+               clk           => clk,
                D0            => s_b_cnt(3 downto 0),
                D1            => "0000",
                D2            => "0000",

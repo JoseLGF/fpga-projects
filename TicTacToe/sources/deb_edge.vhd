@@ -39,7 +39,7 @@ begin
 
     ed: edge_detector port map( 
                i_clk        => CLK,
-               i_rstb       => '1',
+               i_rstb       => '0',
                i_input      => s_deb,
                o_pulse      => out_edge
      );
